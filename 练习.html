@@ -1,0 +1,107 @@
+<html>
+	<head>
+        <title>js</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+        <style>
+            .completed{
+                color: green;
+            }
+        </style>
+    </head>
+	<body>
+        <!-- <nav class="navbar navbar-default navbar-static-top" role="navigation"> -->
+        <div class="container" id="app">
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">Welcome Vue js 2.0 Turtorial</div>
+                        <div class="panel-body">
+                            <h1>My todos {{todoCount}}</h1>
+                            <todo-items v-bind:todos="todos"></todo-items>
+                            <todo-form v-bind:todos="todos"></todo-form>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </nav> -->
+        <script type="text/x-template" id="todo-add-form-template">
+            <form v-on:submit.prevent="addTodo(newTodo)">
+                <div class="form-group">
+                    <input type="text" 
+                        v-model="newTodo.title"
+                        class="form-control"
+                        placeholder="Add a new todo">
+                </div>
+                <div class="form-group">
+                    <button class="btn btn-success" type="submit">Add todo</button>
+                </div>
+            </form>
+        </script>
+        <script type="text/x-template" id="todo-items-template">
+            <ul class="list-group">
+                <li class="list-group-item"
+                    v-bind:class="{ 'completed' : todo.completed }"
+                    v-for="(todo,index) in todos">
+                    {{todo.title}}
+                    <button class="btn btn-warning btn-xs"
+                            v-on:click="deleteTodo(index)"
+                            style="float:right"
+                    >Delete
+                    </button>     
+                    <button class="btn btn-xs pull-right"
+                            v-bind:class="[todo.completed ? 'btn-danger' : 'btn-success']"
+                            v-on:click="toggleCompleteletion(todo)"
+                            style="float:right"
+                    >{{todo.completed ? 'undo' : 'completed'}}
+                    </button> 
+                </li>
+            </ul>
+        </script>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+            Vue.component('todo-items',{
+                template:'#todo-items-template',
+                props: ['todos'],
+                methods:{
+                    deleteTodo(index){
+                    this.todos.splice(index,1)
+                    },
+                    toggleCompleteletion(todo){
+                        todo.completed = !todo.completed
+                    }
+                }
+            })
+            Vue.component('todo-form',{
+                template:'#todo-add-form-template',
+                props: ['todos'],
+                data(){
+                    return{
+                        newTodo:{id:null,title:'',completed:false}
+                    }
+                },
+                methods:{
+                addTodo(newTodo){
+                    this.todos.push(newTodo)
+                    this.newTodo={id:null,title:'',completed:false}
+                },
+            }
+            })
+        new Vue({
+            el: '#app',
+            data: {
+              todos:[
+                  {id:1,title:'Learn Vuejs',completed:false}
+              ],
+            },
+            computed:{
+                todoCount(){
+                    return this.todos.length;
+                }
+            },
+
+          })
+        </script>
+	</body>
+</html>

@@ -1,0 +1,40 @@
+<html>
+    <head>
+        <title>计数器实现</title>
+        
+    </head>
+    <body>
+        <div id="app">
+            <button class="jianhao" @click="jianyi">-</button>
+            <span class="datamessage">{{num}}</span>
+            <button class="jiahao" @click="jiayi">+</button>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+        <script>
+            new Vue({
+                el: '#app',
+                data:{
+                    num:0
+                },
+                methods:{
+                    jianyi:function(){
+                        if(this.num>0){
+                            this.num--;
+                        }
+                        else{
+                            alert("不能减啦！")
+                        }
+                    },
+                    jiayi:function(){
+                        if(this.num<10){
+                            this.num++;
+                        }
+                        else{
+                            alert("不可加啦！")
+                        }
+                    }
+                }
+            })
+        </script>
+    </body>
+</html>
